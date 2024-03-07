@@ -32,7 +32,7 @@ joined_df_1to8['interval_start_timestamp'] = pd.to_datetime(joined_df_1to8['inte
 
 # Calculate weekly metrics
 weeks = [
-    "2024-01-08", "2024-01-15", "2024-01-22", "2024-01-29",
+    "2024-01-01", "2024-01-08", "2024-01-15", "2024-01-22", "2024-01-29",
     "2024-02-05", "2024-02-12", "2024-02-19", "2024-02-26",
     "2024-03-04", "2024-03-11"
 ]
@@ -43,8 +43,10 @@ metrics = ['Total Members', 'Total Visitors', 'New Members', 'Members Left',
 weekly_metrics = pd.DataFrame(index=metrics)
 
 # Populate weekly_metrics with calculated data
-for i in range(len(weeks)-1):
-    start, end = weeks[i], weeks[i+1]
+# Note: Adjusted to label periods with the end date
+for i in range(1, len(weeks)):
+    # Adjusted start and end to reflect period leading up to the 'end' date
+    start, end = weeks[i-1], weeks[i]
     mask = (joined_df_1to8['interval_start_timestamp'] >= start) & (joined_df_1to8['interval_start_timestamp'] < end)
     temp_df = joined_df_1to8.loc[mask]
     summary = {
